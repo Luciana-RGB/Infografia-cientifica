@@ -1,0 +1,81 @@
+Infografía Interactiva — Producción y Control Sanitario de la Trucha Arcoíris
+Infografía de tipo estadístico/datos sobre la producción de Oncorhynchus mykiss . El diseño presenta un estado inicial limpio que oculta todas las cifras y gráficos, revelándolos únicamente mediante interacción (hover en el escritorio, tocar en el móvil).
+
+Estructura del proyecto
+proyecto-trucha
+
+texto
+
+
+> **Nota:** El archivo `index.html` entregado es completamente autocontenido (estilos en `<style>` y scripts en `<script>`). Los directorios `css/`, `js/` y `data/` son estructuras sugeridas para externalizar el código en un entorno de producción. Los comentarios dentro del código indican exactamente dónde realizar cada corte.
+
+---
+
+## Tecnologías utilizadas
+
+| Tecnología | Uso | Detalle |
+|---|---|---|
+| **HTML5** | Estructura | Semántica con `<header>`, `<main>`, `<article>`, `<footer>`. Atributos ARIA para accesibilidad. |
+| **CSS3 (Vanilla)** | Estilos e interacciones | Custom Properties, CSS Grid, transiciones fluidas, sombras inset (Effect #39), tarjetas uniformes (Effect #15). Mobile First. |
+| **JavaScript (Vanilla)** | Comportamiento | Toggle de tarjetas con patrón acordeón, detección de dispositivo táctil, sincronización de `aria-hidden`, soporte de teclado. |
+| **SVG inline** | Iconografía | 10 iconos en trazo negro proporcionados, tintados con `currentColor` para adaptarse a la paleta del proyecto. |
+| **Google Fonts** | Tipografía | DM Serif Display (títulos/datos) + DM Sans (cuerpo/UI). Cargadas con `preconnect` para optimizar rendimiento. |
+
+**No se utilizaron frameworks** (Bootstrap, Tailwind, React, etc.). Todo el código es HTML, CSS y JavaScript puro.
+
+### Paleta de colores
+
+| Variable | Color | Uso |
+|---|---|---|
+| `--color-primary` | `#005F73` | Textos principales, fondo del header/footer |
+| `--color-secondary` | `#0A9396` | Iconos al interactuar, barras de progreso |
+| `--color-accent` | `#94D2BD` | Franjas de acento, autoría en footer |
+| `--color-bg` | `#f0f7f4` | Fondo general con gradientes radiales sutiles |
+| `--color-card` | `#ffffff` | Superficie de las tarjetas |
+
+---
+
+## Cómo visualizar localmente
+
+### Opción 1 — Abrir directamente (más rápido)
+
+Dado que el archivo no tiene dependencias locales, basta con hacer doble clic sobre `index.html` para abrirlo en el navegador.
+
+### Opción 2 — Servidor local (recomendado)
+
+Usar un servidor local evita restricciones del protocolo `file://` y es necesario si se activa la carga de datos desde `data/datos.json` mediante `fetch`.
+
+```bash
+# Con Python 3
+cd proyecto-trucha
+python -m http.server 8080
+
+# Con Node.js (npx, sin instalación)
+cd proyecto-trucha
+npx serve .
+L
+
+texto
+
+http://localhost:8080
+Cómo externalizar el
+El HTML entreg
+
+Cortar todoy pegarlo en `Estilos adicionales: Cortar todo el contenido dentro de y pegarlo en . Reemplazar el bloque por:<style>...</style>css/styles.css<style> 
+Script adicional: Cortar todo el contenido dentro de `<script<script>...</script>yjs/app.js. Reemplazar el bloque por:<script> 
+Activar datos externos: Crear `data/datos.jsoncon la estructura documentfetchdentro deapp.js, ycargarDatosExternos();.
+Los comentarios<!-- -->en/* */en el JS
+
+Efectos CSS implement
+Efecto #15 — Tarjetas de la misma altura: CSS Grid con y uniforme. Crecimiento del 4 % al interactuar con y transición suave de sombra.align-items: stretchmin-heighttransform: scale(1.04)
+Efecto #39 — Sombra interior: Panel de datos ocultos (`max-height: 0max-height: 0, `opacidad: 0opacity: 0) que al revelarsebox-shadow: insetdoble simul
+Acceso
+NaveTab, , ,EnterSpaceEscape).
+Atributos `ariaaria-hiddensincronizados
+role="list"y en el grid y tarjetas.role="listitem"
+prefers-reduced-motion: desactivar
+Contraste de colores ver
+Créditos
+Fuente:CECASEM. (2013). Manejo y producción de truchas: Manual básico.
+Diseño:Luciana Villón Contreras
+Iconografía: SVGs proporcion
