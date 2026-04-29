@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infografía: Producción y Manejo de Truchas</title>
+
+  <!-- =====================================================
+    FUENTES TIPOGRÁFICAS (Google Fonts)
+    Si se desea cambiar, reemplazar estas URLs aquí.
+  ====================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- =====================================================
+    Si los estilos están separados, enlazar así:
+    <link rel="stylesheet" href="./css/estilos.css" />
+  ====================================================== -->
+
+  <style>
+    /* ======================== RESET & BASE ======================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #005F73;
+      --secondary: #0A9396;
+      --accent:    #94D2BD;
+      --light-bg:  #E9F5F5;
+      --white:     #FDFEFF;
+      --text-dark: #062B34;
+      --text-mid:  #2E7D8A;
+      --text-light:#6DABB5;
+      --card-bg:   #FFFFFF;
+      --card-border: rgba(10, 147, 150, 0.18);
+      --shadow-hover: 0 8px 32px rgba(0,95,115,0.16);
+      --shadow-base: 0 2px 8px rgba(0,95,115,0.07);
+      --transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-card: 18px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ======================== HEADER ======================== */
+    .site-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #fff;
+      padding: clamp(2rem, 6vw, 4rem) 1.5rem clamp(1.5rem, 4vw, 3rem);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(148,210,189,0.18) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(148,210,189,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .header-kicker {
+      display: inline-block;
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: rgba(148,210,189,0.22);
+      border: 1px solid rgba(148,210,189,0.4);
+      color: var(--accent);
+      padding: 0.35em 1em;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .site-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.75rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .site-header p {
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      color: rgba(255,255,255,0.78);
+      max-width: 620px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hint {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4em;
+    }
+
+    .hint-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ======================== MAIN GRID ======================== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 3rem) 1rem clamp(2rem, 5vw, 4rem);
+    }
+
+    /* Mobile-first: 1 col → 2 col → 3 col → 4 col */
+    .cards-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 480px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    }
+    @media (min-width: 1024px) {
+      .cards-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ======================== CARD BASE ======================== */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 1.5rem 1.25rem 1.25rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-base);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 200px; /* Efecto #15: misma altura base */
+    }
+
+    /* Capa de fondo que se revela (efecto #39 sombra interior) */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(10,147,150,0.06) 0%, rgba(0,95,115,0.12) 100%);
+      border-radius: inherit;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 0;
+    }
+
+    /* Línea decorativa izquierda */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: 0;
+      width: 4px;
+      height: calc(100% - 3rem);
+      border-radius: 0 4px 4px 0;
+      background: linear-gradient(180deg, var(--secondary), var(--accent));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    /* ---- HOVER / ACTIVE STATES ---- */
+    .card:hover,
+    .card.active {
+      transform: translateY(-6px) scale(1.018); /* Efecto #15 */
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(10,147,150,0.38);
+    }
+
+    .card:hover::before,
+    .card.active::before { opacity: 1; }
+
+    .card:hover::after,
+    .card.active::after { opacity: 1; }
+
+    /* ======================== CARD CONTENT ======================== */
+    .card__inner { position: relative; z-index: 1; display: contents; }
+
+    .card__icon {
+      width: 52px; height: 52px;
+      background: var(--light-bg);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .card__icon svg {
+      width: 26px; height: 26px;
+      stroke: var(--primary);
+      transition: var(--transition);
+    }
+
+    .card:hover .card__icon,
+    .card.active .card__icon {
+      background: var(--primary);
+    }
+
+    .card:hover .card__icon svg,
+    .card.active .card__icon svg {
+      stroke: #fff;
+    }
+
+    .card__title {
+      font-size: clamp(0.82rem, 2vw, 0.9rem);
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      position: relative; z-index: 1;
+    }
+
+    /* ======================== DATO OCULTO ======================== */
+    /* Se oculta en estado inicial y se revela en hover/active */
+    .card__reveal {
+      position: relative; z-index: 1;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.28s ease 0.06s, transform 0.28s ease 0.06s;
+      pointer-events: none;
+    }
+
+    .card:hover .card__reveal,
+    .card.active .card__reveal {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Número / estadística grande */
+    .card__stat {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      line-height: 1;
+      color: var(--primary);
+    }
+
+    .card__stat span {
+      font-size: 0.45em;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      color: var(--text-light);
+      vertical-align: super;
+      margin-left: 2px;
+    }
+
+    .card__desc {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+      margin-top: 0.25rem;
+    }
+
+    /* ======================== SVG BAR CHART ======================== */
+    .card__chart {
+      margin-top: 0.5rem;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .bar-label {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      width: 52px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 7px;
+      background: var(--light-bg);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      width: 0%;
+      transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover .bar-fill,
+    .card.active .bar-fill {
+      width: var(--bar-w);
+    }
+
+    .bar-val {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--primary);
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ======================== DONUT SVG ======================== */
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .donut-legend { font-size: 0.72rem; color: var(--text-mid); }
+    .donut-legend li { list-style: none; display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .donut-ring {
+      stroke-dashoffset: 100;
+      transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1) 0.1s;
+    }
+
+    .card:hover .donut-ring,
+    .card.active .donut-ring {
+      stroke-dashoffset: var(--dash-offset) !important;
+    }
+
+    /* ======================== SECTION DIVIDERS ======================== */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-light);
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.5rem;
+      margin: 2rem 0 1rem;
+    }
+
+    /* ======================== FOOTER ======================== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
+
+    footer strong { color: #fff; font-weight: 500; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ======================== SKIP LINK (accesibilidad) ======================== */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" role="banner">
+    <span class="header-kicker">Acuicultura · Datos Clave</span>
+    <h1>Manejo y Producción de Truchas</h1>
+    <p>Estadísticas esenciales sobre la producción de trucha arcoíris en sistemas de cultivo intensivo.</p>
+    <p class="hint">
+      <span class="hint-dot"></span>
+      Pasa el cursor o toca una tarjeta para revelar los datos
+    </p>
+  </header>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main id="main-content">
+
+    <!-- =====================================================
+      CONEXIÓN EXTERNA: Si los datos provienen de un .json o .csv,
+      descomentar y ajustar la llamada fetch en script.js:
+
+      fetch('./data/estadisticas.json')
+        .then(r => r.json())
+        .then(data => renderCards(data));
+
+      El archivo estadisticas.json debe tener esta estructura:
+      {
+        "cards": [
+          { "id": "crecimiento", "stat": "95", "unit": "%", "desc": "..." },
+          ...
+        ]
+      }
+    ====================================================== -->
+
+    <p class="section-label">Producción y Condiciones del Cultivo</p>
+
+    <div class="cards-grid" role="list" aria-label="Estadísticas de producción de truchas">
+
+      <!-- ---- CARD 1: Crecimiento y producción ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Crecimiento y producción">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3,17 9,11 13,15 21,7"/>
+            <polyline points="14,7 21,7 21,14"/>
+          </svg>
+        </div>
+        <p class="card__title">Crecimiento y producción</p>
+        <div class="card__reveal">
+          <p class="card__stat">1.5<span>kg/m³/día</span></p>
+          <p class="card__desc">Rendimiento promedio en sistemas de cultivo intensivo bien gestionados.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Alevín</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:40%"></div></div>
+              <span class="bar-val">40%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Juvenil</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:70%"></div></div>
+              <span class="bar-val">70%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Adulto</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:95%"></div></div>
+              <span class="bar-val">95%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 2: Jaulas de cultivo ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Jaulas de cultivo">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18"/>
+            <line x1="3" y1="3" x2="21" y2="21"/>
+            <line x1="21" y1="3" x2="3" y2="21"/>
+          </svg>
+        </div>
+        <p class="card__title">Jaulas de cultivo</p>
+        <div class="card__reveal">
+          <p class="card__stat">25<span>m²</span></p>
+          <p class="card__desc">Área mínima recomendada por jaula para densidades óptimas de producción.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Malla</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:85%"></div></div>
+              <span class="bar-val">85%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Flotador</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:60%"></div></div>
+              <span class="bar-val">60%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Anclaje</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:50%"></div></div>
+              <span class="bar-val">50%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 3: Trucha arcoíris ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Trucha arcoíris">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="12" rx="8" ry="4"/>
+            <circle cx="17" cy="12" r="1"/>
+          </svg>
+        </div>
+        <p class="card__title">Trucha arcoíris</p>
+        <div class="card__reveal">
+          <p class="card__stat">3<span>kg</span></p>
+          <p class="card__desc">Peso comercial promedio en el momento de la cosecha (12–18 meses de cultivo).</p>
+          <div class="donut-wrap" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#E9F5F5" stroke-width="10"/>
+              <circle class="donut-ring" cx="32" cy="32" r="24" fill="none"
+                stroke="var(--secondary)" stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="150.8"
+                style="--dash-offset:37.7; transform-origin:center; transform:rotate(-90deg)"
+              />
+            </svg>
+            <ul class="donut-legend">
+              <li><span class="legend-dot" style="background:var(--secondary)"></span>Proteína 75%</li>
+              <li><span class="legend-dot" style="background:var(--accent)"></span>Grasa 25%</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 4: Calidad ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Calidad del producto">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 12c4-4 12-4 16 0"/>
+            <path d="M4 16c4-4 12-4 16 0"/>
+          </svg>
+        </div>
+        <p class="card__title">Calidad</p>
+        <div class="card__reveal">
+          <p class="card__stat">98<span>%</span></p>
+          <p class="card__desc">Porcentaje de lotes que cumplen estándares de calidad en manejo sanitario correcto.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Color</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:98%"></div></div>
+              <span class="bar-val">98%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Textura</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:95%"></div></div>
+              <span class="bar-val">95%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Frescura</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:92%"></div></div>
+              <span class="bar-val">92%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /cards-grid -->
+
+    <p class="section-label">Parámetros del Agua y Sanidad</p>
+
+    <div class="cards-grid" role="list" aria-label="Estadísticas de parámetros del agua y sanidad">
+
+      <!-- ---- CARD 5: Temperatura ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Temperatura del agua">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="10" y1="2" x2="10" y2="14"/>
+            <circle cx="10" cy="18" r="4"/>
+          </svg>
+        </div>
+        <p class="card__title">Temperatura del agua</p>
+        <div class="card__reveal">
+          <p class="card__stat">12–18<span>°C</span></p>
+          <p class="card__desc">Rango óptimo de temperatura para el desarrollo de la trucha arcoíris.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Mínimo</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:30%"></div></div>
+              <span class="bar-val">8 °C</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Óptimo</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:75%"></div></div>
+              <span class="bar-val">15 °C</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Máximo</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">22 °C</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 6: Parámetros óptimos ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Parámetros óptimos del agua">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="8,12 11,15 16,9"/>
+          </svg>
+        </div>
+        <p class="card__title">Parámetros óptimos</p>
+        <div class="card__reveal">
+          <p class="card__stat">7.0–8.5<span>pH</span></p>
+          <p class="card__desc">Nivel de pH ideal del agua para garantizar la supervivencia y el crecimiento.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">O₂ disuelto</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:88%"></div></div>
+              <span class="bar-val">&gt;7 ppm</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Amoniaco</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:20%"></div></div>
+              <span class="bar-val">&lt;0.1</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Turbidez</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:25%"></div></div>
+              <span class="bar-val">Baja</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 7: Monitoreos y análisis ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Monitoreos y análisis">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="2" x2="12" y2="22"/>
+            <circle cx="12" cy="16" r="4"/>
+          </svg>
+        </div>
+        <p class="card__title">Monitoreos y análisis</p>
+        <div class="card__reveal">
+          <p class="card__stat">2×<span>/semana</span></p>
+          <p class="card__desc">Frecuencia mínima de monitoreo de parámetros físico-químicos del agua.</p>
+          <div class="donut-wrap" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#E9F5F5" stroke-width="10"/>
+              <circle class="donut-ring" cx="32" cy="32" r="24" fill="none"
+                stroke="var(--primary)" stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="150.8"
+                style="--dash-offset:50.3; transform-origin:center; transform:rotate(-90deg)"
+              />
+            </svg>
+            <ul class="donut-legend">
+              <li><span class="legend-dot" style="background:var(--primary)"></span>Agua 67%</li>
+              <li><span class="legend-dot" style="background:var(--accent)"></span>Biológico 33%</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 8: Salud y sanidad ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Salud y sanidad">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2 L20 6 V12 C20 17 16 20 12 22 C8 20 4 17 4 12 V6 Z"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+        <p class="card__title">Salud y sanidad</p>
+        <div class="card__reveal">
+          <p class="card__stat">90<span>%</span></p>
+          <p class="card__desc">Tasa de supervivencia en lotes con protocolo sanitario estricto aplicado.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Vacunación</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">Sí</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Cuarentena</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">Sí</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Desinfección</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">Diaria</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /cards-grid -->
+
+    <p class="section-label">Riesgos, Bacterias y Control</p>
+
+    <div class="cards-grid" role="list" aria-label="Estadísticas de riesgos y control">
+
+      <!-- ---- CARD 9: Contaminación y problemas ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Contaminación y problemas">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2 L22 20 H2 Z"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
+        <p class="card__title">Contaminación y problemas</p>
+        <div class="card__reveal">
+          <p class="card__stat">30<span>%</span></p>
+          <p class="card__desc">Pérdidas de producción atribuibles a contaminación del agua y problemas ambientales.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Nitratos</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:65%"></div></div>
+              <span class="bar-val">65%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Sedimentos</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:45%"></div></div>
+              <span class="bar-val">45%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Eutrofización</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:30%"></div></div>
+              <span class="bar-val">30%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 10: Bacterias u organismos ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Bacterias u organismos patógenos">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="8" cy="12" r="3"/>
+            <circle cx="16" cy="12" r="3"/>
+            <line x1="8" y1="9" x2="8" y2="7"/>
+          </svg>
+        </div>
+        <p class="card__title">Bacterias u organismos</p>
+        <div class="card__reveal">
+          <p class="card__stat">5+<span>agentes</span></p>
+          <p class="card__desc">Principales patógenos registrados en cultivos de trucha: <em>Aeromonas</em>, <em>Flavobacterium</em>, entre otros.</p>
+          <div class="donut-wrap" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#E9F5F5" stroke-width="10"/>
+              <circle class="donut-ring" cx="32" cy="32" r="24" fill="none"
+                stroke="#E07A5F" stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="150.8"
+                style="--dash-offset:75.4; transform-origin:center; transform:rotate(-90deg)"
+              />
+            </svg>
+            <ul class="donut-legend">
+              <li><span class="legend-dot" style="background:#E07A5F"></span>Bacterias 50%</li>
+              <li><span class="legend-dot" style="background:var(--accent)"></span>Parásitos 50%</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 11: Riesgos y prevención ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Riesgos y prevención">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2 L22 20 H2 Z"/>
+            <line x1="12" y1="10" x2="12" y2="14"/>
+          </svg>
+        </div>
+        <p class="card__title">Riesgos y prevención</p>
+        <div class="card__reveal">
+          <p class="card__stat">70<span>%</span></p>
+          <p class="card__desc">De los riesgos sanitarios son prevenibles con protocolos de bioseguridad adecuados.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Bioseguridad</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:90%"></div></div>
+              <span class="bar-val">Alta</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Aislamiento</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:70%"></div></div>
+              <span class="bar-val">Medio</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Registro</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:55%"></div></div>
+              <span class="bar-val">Básico</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- CARD 12: Control y registro ---- -->
+      <article class="card" role="listitem" tabindex="0" aria-label="Control y registro">
+        <div class="card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16"/>
+            <line x1="4" y1="10" x2="20" y2="10"/>
+          </svg>
+        </div>
+        <p class="card__title">Control y registro</p>
+        <div class="card__reveal">
+          <p class="card__stat">100<span>%</span></p>
+          <p class="card__desc">Trazabilidad exigida en exportaciones: registro completo desde la incubación hasta la cosecha.</p>
+          <div class="card__chart" aria-hidden="true">
+            <div class="bar-row">
+              <span class="bar-label">Incubación</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">✓</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Engorde</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">✓</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Cosecha</span>
+              <div class="bar-track"><div class="bar-fill" style="--bar-w:100%"></div></div>
+              <span class="bar-val">✓</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /cards-grid -->
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer role="contentinfo">
+    <p>
+      <strong>Fuente:</strong>
+      CECASEM. (2013). <em>Manejo y producción de truchas: Manual básico.</em>
+    </p>
+    <p>Diseñado por: <strong>Luciana Villón Contreras</strong></p>
+  </footer>
+
+  <!-- =====================================================
+    JAVASCRIPT
+    Si el script está separado, enlazar así (defer evita bloqueo):
+    <script src="./js/infografia.js" defer></script>
+
+    El script siguiente puede moverse a ./js/infografia.js
+  ====================================================== -->
+
+  <!-- =====================================================
+    CARGA OPCIONAL DE DATOS EXTERNOS (comentada por defecto)
+    Descomenta y ajusta si usas un .json o .csv externo:
+
+    <script src="./js/cargar-datos.js" defer></script>
+  ====================================================== -->
+
+  <script defer>
+    /* =====================================================
+      INTERACTIVIDAD: clic / teclado para revelar tarjetas
+      (complementa el hover de CSS)
+    ====================================================== */
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+
+        /* Clic: toggle estado activo */
+        card.addEventListener('click', () => {
+          const isActive = card.classList.contains('active');
+          cards.forEach(c => c.classList.remove('active'));
+          if (!isActive) card.classList.add('active');
+        });
+
+        /* Teclado (Enter / Space) para accesibilidad */
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+      /* =====================================================
+        CONEXIÓN A DATOS EXTERNOS (preparada, comentada):
+        Descomenta si quieres cargar datos desde un .json
+        =====================================================
+
+        fetch('./data/estadisticas.json')
+          .then(response => {
+            if (!response.ok) throw new Error('Error al cargar datos');
+            return response.json();
+          })
+          .then(data => {
+            // data.cards es un array de objetos con { id, stat, unit, desc }
+            // Ejemplo para actualizar el stat de una tarjeta por id:
+            data.cards.forEach(item => {
+              const card = document.querySelector(`[data-id="${item.id}"]`);
+              if (card) {
+                const statEl = card.querySelector('.card__stat');
+                if (statEl) statEl.textContent = item.stat + (item.unit || '');
+              }
+            });
+          })
+          .catch(err => console.warn('No se cargó el JSON externo:', err));
+      */
+
+    });
+  </script>
+
+</body>
+</html>
